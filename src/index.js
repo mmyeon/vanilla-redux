@@ -4,9 +4,11 @@ const add = document.getElementById("add");
 const minus = document.getElementById("minus");
 const number = document.querySelector("span");
 
+// 처음 시작
+number.innerText = 0;
+
 // 스테이트가 존재하지 않는다면 0 으로 스테이트 초기화함.
 const countModifier = (count = 0, action) => {
-  console.log(count, action);
   if (action.type === "ADD") {
     return count + 1;
   } else if (action.type === "MINUS") {
@@ -20,12 +22,21 @@ const countModifier = (count = 0, action) => {
 
 const countStore = createStore(countModifier);
 
-countStore.dispatch({ type: "ADD" });
-countStore.dispatch({ type: "ADD" });
-countStore.dispatch({ type: "ADD" });
-countStore.dispatch({ type: "ADD" });
-countStore.dispatch({ type: "ADD" });
-countStore.dispatch({ type: "ADD" });
-countStore.dispatch({ type: "MINUS" });
+const onChange = () => {
+  number.innerText = countStore.getState();
+};
 
-console.log(countStore.getState());
+countStore.subscribe(onChange); // 스테이트가 스토어에서 바뀔때마다 onChange함수 호출됨
+
+const handleAdd = () => {
+  return countStore.dispatch({ type: "ADD" });
+};
+const handleMinus = () => {
+  return countStore.dispatch({ type: "MINUS" });
+};
+
+add.addEventListener("click", handleAdd);
+minus.addEventListener("click", handleMinus);
+
+// add.addEventListener("click", () => countStore.dispatch({ type: "ADD" }));
+// minus.addEventListener("click", () => countStore.dispatch({ type: "MINUS "}));
