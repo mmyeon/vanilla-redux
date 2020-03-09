@@ -1,46 +1,18 @@
-import { createStore } from "redux";
+const form = document.querySelector("form");
+const input = document.querySelector("input");
+const ul = document.querySelector("ul");
 
-const add = document.getElementById("add");
-const minus = document.getElementById("minus");
-const number = document.querySelector("span");
-
-// 처음 시작
-number.innerText = 0;
-
-const ADD = "ADD";
-const MINUS = "MINUS";
-
-// 스테이트가 존재하지 않는다면 0 으로 스테이트 초기화함.
-const countModifier = (count = 0, action) => {
-  switch (action.type) {
-    case ADD:
-      return count + 1;
-    case MINUS:
-      return count - 1;
-    default:
-      return count;
-  }
+const createToDo = toDo => {
+  const li = document.createElement("li");
+  li.innerText = toDo;
+  ul.appendChild(li);
 };
 
-// countModifier에게 count++를 리턴하라고 어떻게 말할 수 있을까? => 액션이 하는 일
-
-const countStore = createStore(countModifier);
-
-const onChange = () => {
-  number.innerText = countStore.getState();
+const onSubmit = e => {
+  e.preventDefault();
+  const toDo = input.value;
+  input.value = "";
+  createToDo(toDo);
 };
 
-countStore.subscribe(onChange); // 스테이트가 스토어에서 바뀔때마다 onChange함수 호출됨
-
-const handleAdd = () => {
-  return countStore.dispatch({ type: ADD });
-};
-const handleMinus = () => {
-  return countStore.dispatch({ type: MINUS });
-};
-
-add.addEventListener("click", handleAdd);
-minus.addEventListener("click", handleMinus);
-
-// add.addEventListener("click", () => countStore.dispatch({ type: "ADD" }));
-// minus.addEventListener("click", () => countStore.dispatch({ type: "MINUS "}));
+form.addEventListener("submit", onSubmit);
