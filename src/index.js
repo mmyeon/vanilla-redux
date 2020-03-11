@@ -77,18 +77,3 @@ const onSubmit = e => {
 };
 
 form.addEventListener("submit", onSubmit); // submit이라는 이벤트를 핸들링하는 건 form의 역할
-
-// 같은 코드
-// store.dispatch(actionCreator());
-// store.dispatch({ type: "LOGIN" });
-
-// const store = Redux.createStore((state = { login: false }) => state);
-
-// const loginAction = () => {
-//   return {
-//     type: "LOGIN"
-//   };
-// };
-
-// Dispatch the action here:
-// store.dispatch(loginAction());
