@@ -8,10 +8,9 @@ const ADD_TO_DO = "ADD_TO_DO";
 const DELETE_TO_DO = "DELETE_TO_DO";
 
 const reducer = (state = [], action) => {
-  console.log(action);
   switch (action.type) {
     case ADD_TO_DO:
-      return [];
+      return [...state, { text: action.text, id: Date.now() }];
     case DELETE_TO_DO:
       return [];
     default:
@@ -20,6 +19,10 @@ const reducer = (state = [], action) => {
 };
 
 const store = createStore(reducer);
+
+store.subscribe(() => {
+  console.log(store.getState());
+});
 
 const onSubmit = (e) => {
   e.preventDefault();
