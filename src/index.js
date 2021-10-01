@@ -12,6 +12,7 @@ const reducer = (state = [], action) => {
     case ADD_TO_DO:
       return [{ text: action.text, id: Date.now() }, ...state];
     case DELETE_TO_DO:
+      //  삭제 버튼 눌린 리스트만 지우도록 해야함
       return [];
     default:
       return state;
@@ -20,32 +21,42 @@ const reducer = (state = [], action) => {
 
 const store = createStore(reducer);
 
+store.subscribe(() => {
+  console.log(store.getState());
+});
+
+const dispatchAddToDo = (text) => {
+  store.dispatch({ type: ADD_TO_DO, text });
+};
+
+const dispatchDeleteToDo = (e) => {
+  const id = e.target.parentNode.id;
+  store.dispatch({ type: DELETE_TO_DO, id });
+};
+
 const paintToDos = () => {
   const toDos = store.getState();
   ul.innerHTML = "";
 
   toDos.forEach((toDo) => {
     const li = document.createElement("li");
+    const btn = document.createElement("button");
+    btn.innerText = "DEL";
+    btn.addEventListener("click", dispatchDeleteToDo);
     li.innerText = toDo.text;
+    li.id = toDo.id;
+    li.appendChild(btn);
     ul.appendChild(li);
   });
 };
 
-store.subscribe(() => {
-  console.log(store.getState());
-});
-
 store.subscribe(paintToDos);
-
-const addToDo = (text) => {
-  store.dispatch({ type: ADD_TO_DO, text });
-};
 
 const onSubmit = (e) => {
   e.preventDefault();
   const toDo = input.value;
   input.value = "";
-  addToDo(toDo);
+  dispatchAddToDo(toDo);
 };
 
 form.addEventListener("submit", onSubmit);
