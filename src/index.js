@@ -37,11 +37,15 @@ store.subscribe(() => {
 
 store.subscribe(paintToDos);
 
+const addToDo = (text) => {
+  store.dispatch({ type: ADD_TO_DO, text });
+};
+
 const onSubmit = (e) => {
   e.preventDefault();
   const toDo = input.value;
   input.value = "";
-  store.dispatch({ type: ADD_TO_DO, text: toDo });
+  addToDo(toDo);
 };
 
 form.addEventListener("submit", onSubmit);
