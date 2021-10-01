@@ -7,6 +7,13 @@ const ul = document.querySelector("ul");
 const ADD_TO_DO = "ADD_TO_DO";
 const DELETE_TO_DO = "DELETE_TO_DO";
 
+const addToDo = (text) => {
+  return { type: ADD_TO_DO, text };
+};
+const deleteToDo = (id) => {
+  return { type: DELETE_TO_DO, id };
+};
+
 const reducer = (state = [], action) => {
   switch (action.type) {
     case ADD_TO_DO:
@@ -26,12 +33,12 @@ store.subscribe(() => {
 });
 
 const dispatchAddToDo = (text) => {
-  store.dispatch({ type: ADD_TO_DO, text });
+  store.dispatch(addToDo(text));
 };
 
 const dispatchDeleteToDo = (e) => {
   const id = e.target.parentNode.id;
-  store.dispatch({ type: DELETE_TO_DO, id });
+  store.dispatch(deleteToDo(id));
 };
 
 const paintToDos = () => {
