@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { actionCreators } from "../store";
+import { remove } from "../store";
 
 const Detail = ({ toDo, onBtnClick }) => {
   return (
@@ -20,7 +20,7 @@ function mapDispatchToProps(dispatch, ownProps) {
   } = ownProps;
 
   return {
-    onBtnClick: () => dispatch(actionCreators.deleteToDo(parseInt(id))),
+    onBtnClick: () => dispatch(remove(parseInt(id))),
   };
 }
 
