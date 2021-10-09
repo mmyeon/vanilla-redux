@@ -1,8 +1,15 @@
 import React from "react";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useParams } from "react-router";
 import { remove } from "../store";
 
-const Detail = ({ toDo, onBtnClick }) => {
+const Detail = () => {
+  const { id } = useParams();
+  const dispatch = useDispatch();
+  const toDo = useSelector((state) =>
+    state.find((toDo) => toDo.id === parseInt(id))
+  );
+
   return (
     <>
       <h1>{toDo?.text}</h1>
@@ -10,30 +17,10 @@ const Detail = ({ toDo, onBtnClick }) => {
       <h5>Created at :{toDo?.id}</h5>
     </>
   );
+
+  function onBtnClick() {
+    dispatch(remove(parseInt(id)));
+  }
 };
 
-function mapDispatchToProps(dispatch, ownProps) {
-  const {
-    match: {
-      params: { id },
-    },
-  } = ownProps;
-
-  return {
-    onBtnClick: () => dispatch(remove(parseInt(id))),
-  };
-}
-
-function mapStateToProps(state, ownProps) {
-  const {
-    match: {
-      params: { id },
-    },
-  } = ownProps;
-
-  return {
-    toDo: state.find((toDo) => toDo.id === parseInt(id)),
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Detail);
+export default Detail;

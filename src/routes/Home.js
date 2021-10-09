@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import ToDo from "../components/ToDo";
 import { add } from "../store";
 
-const Home = ({ toDos, addToDo }) => {
+const Home = () => {
   const [text, setText] = useState("");
+  const dispatch = useDispatch();
+  const toDos = useSelector((state) => state);
 
   function onChange(e) {
     setText(e.target.value);
@@ -14,6 +16,10 @@ const Home = ({ toDos, addToDo }) => {
     e.preventDefault();
     addToDo(text);
     setText("");
+  }
+
+  function addToDo(text) {
+    dispatch(add(text));
   }
 
   return (
@@ -37,12 +43,4 @@ const Home = ({ toDos, addToDo }) => {
   );
 };
 
-function mapDispatchToProps(dispatch) {
-  return { addToDo: (text) => dispatch(add(text)) };
-}
-
-function mapStateToProps(state) {
-  return { toDos: state };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default Home;
